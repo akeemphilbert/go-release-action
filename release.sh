@@ -75,32 +75,7 @@ RELEASE_ASSET_EXT='.tar.gz'
 MEDIA_TYPE='application/gzip'
 if [ ${INPUT_GOOS} == 'windows' ]; then
 RELEASE_ASSET_EXT='.zip'
-MEDIA_TYPE='application/zip'
 zip -vr ${RELEASE_ASSET_NAME}${RELEASE_ASSET_EXT} *
 else
 tar cvfz ${RELEASE_ASSET_NAME}${RELEASE_ASSET_EXT} *
-fi
-MD5_SUM=$(md5sum ${RELEASE_ASSET_NAME}${RELEASE_ASSET_EXT} | cut -d ' ' -f 1)
-SHA256_SUM=$(sha256sum ${RELEASE_ASSET_NAME}${RELEASE_ASSET_EXT} | cut -d ' ' -f 1)
-
-# prefix upload extra params 
-GITHUB_ASSETS_UPLOADR_EXTRA_OPTIONS=''
-if [ ${INPUT_OVERWRITE^^} == 'TRUE' ]; then
-    GITHUB_ASSETS_UPLOADR_EXTRA_OPTIONS="-overwrite"
-fi
-
-# update binary and checksum
-github-assets-uploader -f ${RELEASE_ASSET_NAME}${RELEASE_ASSET_EXT} -mediatype ${MEDIA_TYPE} ${GITHUB_ASSETS_UPLOADR_EXTRA_OPTIONS} -repo ${GITHUB_REPOSITORY} -token ${INPUT_GITHUB_TOKEN} -tag ${RELEASE_TAG}
-if [ ${INPUT_MD5SUM^^} == 'TRUE' ]; then
-MD5_EXT='.md5'
-MD5_MEDIA_TYPE='text/plain'
-echo ${MD5_SUM} >${RELEASE_ASSET_NAME}${RELEASE_ASSET_EXT}${MD5_EXT}
-github-assets-uploader -f ${RELEASE_ASSET_NAME}${RELEASE_ASSET_EXT}${MD5_EXT} -mediatype ${MD5_MEDIA_TYPE} ${GITHUB_ASSETS_UPLOADR_EXTRA_OPTIONS} -repo ${GITHUB_REPOSITORY} -token ${INPUT_GITHUB_TOKEN} -tag ${RELEASE_TAG}
-fi
-
-if [ ${INPUT_SHA256SUM^^} == 'TRUE' ]; then
-SHA256_EXT='.sha256'
-SHA256_MEDIA_TYPE='text/plain'
-echo ${SHA256_SUM} >${RELEASE_ASSET_NAME}${RELEASE_ASSET_EXT}${SHA256_EXT}
-github-assets-uploader -f ${RELEASE_ASSET_NAME}${RELEASE_ASSET_EXT}${SHA256_EXT} -mediatype ${SHA256_MEDIA_TYPE} ${GITHUB_ASSETS_UPLOADR_EXTRA_OPTIONS} -repo ${GITHUB_REPOSITORY} -token ${INPUT_GITHUB_TOKEN} -tag ${RELEASE_TAG}
 fi
