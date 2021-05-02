@@ -20,4 +20,12 @@ export GO_HOME=/usr/local/go
 export GOPATH=/go
 export PATH=${GOPATH}/bin:${GO_HOME}/bin/:$PATH
 
+apt update \
+ && apt install -y \
+    gcc \
+    libblkid-dev \
+ && apt clean \
+ && apt autoremove -y \
+ && rm -rf /var/lib/apt/lists/*
+
 
