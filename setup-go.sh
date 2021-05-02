@@ -28,7 +28,6 @@ apt update \
     libc6-dev-arm64-cross \
     gcc-multilib \
     libc6-dev-i386 \
-    linux-libc-dev:i386 \
     gcc-mingw-w64-x86-64 \
     gcc-mingw-w64-i686 \
  && apt clean \
