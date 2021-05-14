@@ -20,18 +20,4 @@ export GO_HOME=/usr/local/go
 export GOPATH=/go
 export PATH=${GOPATH}/bin:${GO_HOME}/bin/:$PATH
 
-apt update \
- && apt install -y \
-    gcc \
-    libblkid-dev \
-    gcc-aarch64-linux-gnu \
-    libc6-dev-arm64-cross \
-    gcc-multilib \
-    libc6-dev-i386 \
-    gcc-mingw-w64-x86-64 \
-    gcc-mingw-w64-i686 \
- && apt clean \
- && apt autoremove -y \
- && rm -rf /var/lib/apt/lists/*
-
 
